@@ -17,7 +17,7 @@ fileConfig(config.config_file_name)
 import sys
 sys.path.append('../Lemona')
 import meta_model
-target_metadata = meta_model.Base.metadata
+target_metadata = meta_model.DevBase.metadata
 
 
 # other values from the config, defined by the needs of env.py,

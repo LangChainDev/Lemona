@@ -6,54 +6,67 @@ from sqlalchemy.schema import *
 
 def connect_db(db_info, schema_name):
     """
-    :param db_info: DB 정보 딕셔너리
-    :param schema_name: 복사할 schema 이름
-    :return: 연결된 Base 
+    :param db_info: dict, DataBase Information
+    :param schema_name: str, schema name 
+    :return: Connected engine and base 
     """
+    # This is for PostgreSQL & psycopg2. You can change to what you use.
     url = 'postgresql+psycopg2://{user}:{password}@{host}:5432/{database}'.format(**db_info)
     engine = create_engine(url, client_encoding='utf8')
 
     Base = declarative_base(metadata=MetaData(schema=schema_name))
+    # Import the schema's information into metadata.
     Base.metadata.reflect(engine)
     return engine, Base
 
 
 def init_db(engine, Base):
     """
-    **DB 초기화**
-    아주 맨 처음에 DB를 복사해서 만들 떄 실행시켜주세요.
-    처음에 초기화할때는 Alembic을 사용하지 않고, 그냥 바로 create! sequence를 새로 만드는 것까진 안되기 때문입니다.
-    > postgreSQL이라서 그런듯?
+    Only at the very beginning.
+    I Think so... This need for only PostgreSQL.
+    With 'OriginalBase' in 'Base', Alembic doesn't automatically make Sequence;(
 
-    :return: 새로운 DB 생성!
+    :return: Actually reflected in Database
     """
     return Base.metadata.create_all(engine)
 
 
-"""
-SCHEMA_NAME: 복사할 schema
-ORIGINAL_DATABASE: 복사할 DB 정보
-DATABASE: 만들어질 DB 정보
-"""
+def storeSQLfile(base):
+    """
+    :param base: what you want to store
+    :return: SQL file
+    """
+    file_date = datetime.now().strftime('%Y%m%d_%H%M%S')
+    tables = base.metadata.tables
+    for table in tables.values():
+        rawSQL = str(CreateTable(table))
+
+        with open('./sql_files/schema_{}.sql'.format(file_date), 'a') as text_file:
+            text_file.write(rawSQL)
+
+
+
+# target schema name
 SCHEMA_NAME = ''
-ORIGINAL_DATABASE = {'user': '',
-                     'password': '',
-                     'host': '',
-                     'database': ''}
-original_engine, OriginalBase = connect_db(ORIGINAL_DATABASE, SCHEMA_NAME)
 
-DATABASE = {'user': '',
-            'password': '',
-            'host': '',
-            'database': ''}
-engine, Base = connect_db(DATABASE, SCHEMA_NAME)
+# DEV_DATABASE: Development Database Information
+DEV_DATABASE = {'user': '',
+                'password': '',
+                'host': '',
+                'database': ''}
+devEngine, DevBase = connect_db(DEV_DATABASE, SCHEMA_NAME)
 
-Base.metadata = OriginalBase.metadata
-init_db(engine, Base)
+# PROD_DATABASE: Product Database Information
+PROD_DATABASE = {'user': '',
+                 'password': '',
+                 'host': '',
+                 'database': ''}
+prodEngine, ProdBase = connect_db(PROD_DATABASE, SCHEMA_NAME)
 
+ProdBase.metadata = DevBase.metadata
 
-# SQL문으로 출력됨
-# tables = Base.metadata.tables
-# for t in tables.values():
-#     copy_table = str(CreateTable(t))
-#     print(copy_table)
+# First Execute!
+# init_db(prodEngine, ProdBase)
+
+# If you want to get Raw SQL file, do it!
+# storeSQLfile(ProdBase)
