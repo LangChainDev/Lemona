@@ -76,7 +76,6 @@ DEV_DATABASE = {'user': '',
                 'password': '',
                 'host': '',
                 'database': ''}
-devEngine, DevBase = connect_db(DEV_DATABASE, SCHEMA_NAME)
 
 # PROD_DATABASE: Product Database Information
 PROD_DATABASE = {'user': '',
