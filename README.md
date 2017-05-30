@@ -2,11 +2,10 @@
 
 DB catalog exporter in SQLAlchemy form.
 
-Lemona is a tool that uses sqlalchemy metadata to export database catalog in sqlalchemy format.
 
+Lemona is a tool that can make DB version management more convenient with alembic.
 
-
-After exporting the db schema using lemona, you can use alembic to manage the migration.
+Lemona supports migration of each database using sqlalchemy's metadata.
 
 
 
