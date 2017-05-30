@@ -13,12 +13,16 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# target_metadata = None
-import sys
-sys.path.append('../Lemona')
+import os, sys
+# MODEL_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
+# sys.path.append(MODEL_PATH)
+sys.path.append('../study_alchemy')
 import meta_model
-target_metadata = meta_model.DevBase.metadata
+SCHEMA = ''
+_, Base, _ = meta_model.connect_db(meta_model.DEV_DATABASE, SCHEMA)
+target_metadata = Base.metadata
 
+# target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -71,3 +75,5 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
+
+
