@@ -27,8 +27,10 @@ After exporting the db schema using lemona, you can use alembic to manage the mi
 
 #### Alembic
 Go to the directory where you want to run alembic version control and execute the following command.
+
+I created a project name as alembic for explanation. You can create it with the name you want.
 ```shell
-$ alembic init myproject
+$ alembic init alembic 
 ```
 Now, the alembic version control project is created with the following directory structure.
 <!-- AUTO-GENERATED-CONTENT:START (DIRTREE:dir=./) -->
@@ -102,7 +104,8 @@ $ alembic upgrade head
 ```
 
 
-###More info
+### More info
+
 sqlAlchemy : http://alembic.zzzcomputing.com/en/latest/
 
 Alembic : https://www.sqlalchemy.org/
