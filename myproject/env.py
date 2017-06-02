@@ -13,9 +13,12 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+# target_metadata = None
+import sys
+sys.path.append('../Lemona')
+import meta_model
+target_metadata = meta_model.DevBase.metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

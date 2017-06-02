@@ -45,6 +45,27 @@ myproject-directory-tree/
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
+After creating myproject, you can see the following in the ```env.py``` file. You should put the information corresponding to the database model.
+
+In this example, we use the sqlalchemy's metadata to get schema information.
+```python
+# env.py
+# 
+# ...
+# 
+# add your model's MetaData object here
+# for 'autogenerate' support
+# target_metadata = None
+import sys
+sys.path.append('../Lemona')
+import meta_model
+target_metadata = meta_model.DevBase.metadata
+# 
+# ...
+# 
+```
+
+
 ### ※ Importance 
 You must execute the command with the name <bold>`"initial_migraion"`<bold>.
 If you do not naming like this, you can not parse the sequence part of postgresql properly.
