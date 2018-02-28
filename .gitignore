@@ -1,1 +1,4 @@
 .DS_Store
+.idea/
+alembic/__pycache__/
+alembic/versions/__pycache__/
