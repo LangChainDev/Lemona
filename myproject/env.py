@@ -11,22 +11,27 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
+# add your model's MetaData object here for 'autogenerate' support
 # MODEL_PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
 # target_metadata = None
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.ext.declarative import declarative_base
 
-#: set schema to copy(already created schema)
-url = 'driver://user:pass@localhost/dbname'
+# from sqlalchemy import create_engine, MetaData
+# from sqlalchemy.ext.declarative import declarative_base
+#
+# #: set schema to copy(already created schema)
+# url = 'driver://user:pass@localhost/dbname'
+#
+# engine = create_engine(url)
+# conn = engine.connect()
+# Base = declarative_base(metadata=MetaData(bind=engine))
+# Base.metadata.reflect(engine)
+#
+# target_metadata = Base.metadata
 
-engine = create_engine(url)
-conn = engine.connect()
-Base = declarative_base(metadata=MetaData(bind=engine))
-Base.metadata.reflect(engine)
-
-target_metadata = Base.metadata
+import sys
+sys.path.append('../Lemona')
+import meta_model
+target_metadata = meta_model.DevBase.metadata
 
 
 # other values from the config, defined by the needs of env.py,
@@ -80,5 +85,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-
-
